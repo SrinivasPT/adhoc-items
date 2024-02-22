@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Speed Reader</title>
+        <style>
+            body,
+            html {
+                height: 100%;
+                margin: 0;
+                font-family: Arial, sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+            }
+
+            #app {
+                width: 80%;
+            }
+
+            #inputText {
+                width: 100%;
+                height: 150px;
+                margin-bottom: 20px;
+            }
+
+            #wordDisplay {
+                margin-top: 20px;
+                font-size: 32px;
+                height: 50px;
+            }
+
+            button,
+            input {
+                font-size: 16px;
+                padding: 10px;
+                margin-top: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <textarea id="inputText" placeholder="Paste your text here..."></textarea>
+            <input type="number" id="wpm" placeholder="Words Per Minute (WPM)" value="200" />
+            <button id="startButton">Start Reading</button>
+            <div id="wordDisplay"></div>
+        </div>
+        <script>
+            document.getElementById("startButton").addEventListener("click", function () {
+                const text = document.getElementById("inputText").value;
+                const words = text.split(/\s+/);
+                const wpm = parseInt(document.getElementById("wpm").value, 10);
+                const display = document.getElementById("wordDisplay");
+                let index = 0;
+
+                const intervalTime = 60000 / wpm; // Calculate the interval in milliseconds per word
+
+                function displayNextWord() {
+                    if (index < words.length) {
+                        display.innerText = words[index++];
+                    } else {
+                        clearInterval(intervalId); // Stop the interval when done
+                        display.innerText = ""; // Optionally clear the display or indicate completion
+                    }
+                }
+
+                const intervalId = setInterval(displayNextWord, intervalTime);
+            });
+        </script>
+    </body>
+</html>
